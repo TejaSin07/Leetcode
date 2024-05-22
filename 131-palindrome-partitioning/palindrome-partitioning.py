@@ -1,9 +1,19 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        if not s: return [[]]
-        ans = []
-        for i in range(1, len(s) + 1):
-            if s[:i] == s[:i][::-1]:  # prefix is a palindrome
-                for suf in self.partition(s[i:]):  # process suffix recursively
-                    ans.append([s[:i]] + suf)
-        return ans
+        def is_palindrome(sub):
+            return sub == sub[::-1]
+    
+        def backtrack(start, path):
+            if start == len(s):
+                result.append(path[:])
+                return
+            
+            for end in range(start + 1, len(s) + 1):
+                if is_palindrome(s[start:end]):
+                    path.append(s[start:end])
+                    backtrack(end, path)
+                    path.pop()
+        
+        result = []
+        backtrack(0, [])
+        return result
