@@ -1,25 +1,25 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
-        words = []
-        slow, fast = 0, 0
+        # Initialize an empty list to hold the words
+        res = []
+        # Temporary string to build each word
+        temp = ""
         
-        mode = 'blank' if s[0] == ' ' else 'word'
+        # Iterate through each character in the string
+        for c in s:
+            # If the character is not a space, add it to the current word
+            if c != " ":
+                temp += c
+            # If the character is a space and temp is not empty, a word is complete
+            elif temp != "":
+                # Add the completed word to the result list
+                res.append(temp)
+                # Reset temp for the next word
+                temp = ""
         
-        while fast < len(s):
-            if mode == 'word' and s[fast] == ' ':
-                words.append(s[slow:fast])
-                slow = fast  # Synchronize slow with fast
-                mode = 'blank'
-                
-            elif mode == 'blank' and s[fast] != ' ':
-                slow = fast  # Synchronize slow with fast
-                mode = 'word'
+        # After the loop, if temp still has a word, add it to the result list
+        if temp != "":
+            res.append(temp)
         
-            fast += 1
-        
-        # Append the last word
-        if (lastWord := s[slow:fast]).strip():
-            words.append(lastWord)
-        
-        return ' '.join(words[::-1])
-
+        # Reverse the list of words and join them with a space to form the final result
+        return " ".join(res[::-1])
