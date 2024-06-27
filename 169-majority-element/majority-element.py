@@ -6,8 +6,8 @@ class Solution:
             if count == 0:
                 res = num
             if num == res:
-                count += 1
+                count +=1
             else:
-                count -= 1
-        return res
-        
+                count -=1
+        return res 
+            
