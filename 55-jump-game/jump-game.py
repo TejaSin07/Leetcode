@@ -1,13 +1,22 @@
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        gas = 0                      #case 1
-        for n in nums:              #2          3           1           1           4
-            if gas < 0:             #0<0        1<0         2<0         1<0         0<0
-                return False                                                        
-            elif n > gas:           #2>0        3>1         1>2 false   1>1         4>0
-                gas = n             #gas = 2    gas = 3     no change   no change   gas=4 
-            gas -= 1                #gas = 1    gas = 2     gas = 1     gas = 0     gas =3
+        # gas = 0                      #case 1
+        # for n in nums:              #2          3           1           1           4
+        #     if gas < 0:             #0<0        1<0         2<0         1<0         0<0
+        #         return False                                                        
+        #     elif n > gas:           #2>0        3>1         1>2 false   1>1         4>0
+        #         gas = n             #gas = 2    gas = 3     no change   no change   gas=4 
+        #     gas -= 1                #gas = 1    gas = 2     gas = 1     gas = 0     gas =3
             
+        # return True
+
+        gas  = 0
+        for n in nums:
+            if gas< 0 :
+                return False
+            elif gas< n:
+                gas = n
+            gas -= 1
         return True
 
 
