@@ -9,7 +9,7 @@ class Solution {
             idx++;
         }
         else{
-            return s1.substring(0,idx);
+        break;
         }
     }
     return s1.substring(0,idx);
