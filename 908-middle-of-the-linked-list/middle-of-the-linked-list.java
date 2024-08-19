@@ -18,8 +18,8 @@ class Solution {
             tempA = tempA.next;
         }
         
-        middle = (lengthA/2)+1;
-        for(int i =0;i<middle-1;i++){
+        middle = (lengthA/2);
+        for(int i =0;i<middle;i++){
             head = head.next;
         }
         return head;
