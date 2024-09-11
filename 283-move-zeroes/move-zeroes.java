@@ -12,6 +12,7 @@ class Solution {
             }
         }  
         while(count !=0){
+            
             nums[j] = 0;
             j++;
             count--;
