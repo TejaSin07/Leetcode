@@ -1,14 +1,20 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        int n= nums.length;
-        int sum = 0;
-        int sum2 = 0;
-        int i = 0;
-        while(i<n){
-            sum += nums[i];
+     Arrays.sort(nums);
+     int i = 1;
+     while(i< nums.length){
+        if(nums[i-1]+1 == nums[i]){
             i++;
+            continue;
+            
         }
-        sum2 = n*(n+1)/2;
-        return sum2-sum;
+        else{
+            return nums[i-1]+1;
+        }
+     }
+     if(nums.length == nums[nums.length-1]){
+        return 0;
+     }
+     return nums.length;   
     }
 }
