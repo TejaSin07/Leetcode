@@ -39,7 +39,7 @@ class Solution {
                 }
             }
         }
-                if (firstColZero) {
+        if (firstColZero) {
             for (int i = 0; i < rows; i++) {
                 matrix[i][0] = 0;  // Set the first column to 0
             }
