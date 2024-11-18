@@ -32,9 +32,9 @@ class Solution {
                 }
             }
         }
-        for(int j = 0;j<cols;j++){
+        for(int j = 1;j<cols;j++){
             if(matrix[0][j]==0){
-                for(int i = 0;i<rows;i++){
+                for(int i = 1;i<rows;i++){
                     matrix[i][j] = 0;
                 }
             }
