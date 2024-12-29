@@ -1,42 +1,37 @@
-class Solution {
-    public int findMin(int[] nums) {
-        int right = nums.length-1;
-        if(right ==0)return nums[0];
-        int left = 0;
-        
-        while(left <= right ){
-            int mid = (left + right )/2;
-            int dava = left;
-            int ujva = right;
-            if(left == mid){
-                dava = mid;
-            }
-            else{
-                dava = mid-1;
-            }
-            if(right == mid){
-                ujva = mid;
-            }
-            else{
-                ujva = mid+1;
+public class Solution {
+    public static int findMin(int []arr) {
+        int low = 0, high = arr.length - 1;
+        int ans = Integer.MAX_VALUE;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            //search space is already sorted
+            //then arr[low] will always be
+            //the minimum in that search space:
+            if (arr[low] <= arr[high]) {
+                ans = Math.min(ans, arr[low]);
+                break;
             }
 
-            if(nums[mid] <= nums[dava]  && nums[mid] <= nums[ujva]){
-                return nums[mid];
-            }
+            //if left part is sorted:
+            if (arr[low] <= arr[mid]) {
+                // keep the minimum:
+                ans = Math.min(ans, arr[low]);
 
-            if(nums[left] < nums[right]){
-                return nums[left];
-            }
-            else if(nums[left]>nums[mid]){
-                right = mid-1;
-            }
-            else {
-                left = mid+1;
-            }
+                // Eliminate left half:
+                low = mid + 1;
 
+            } else { //if right part is sorted:
 
+                // keep the minimum:
+                ans = Math.min(ans, arr[mid]);
+
+                // Eliminate right half:
+                high = mid - 1;
+            }
         }
-        return -1;
+        return ans;
     }
+
 }
+
