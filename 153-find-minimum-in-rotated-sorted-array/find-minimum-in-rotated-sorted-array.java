@@ -3,7 +3,7 @@ class Solution {
         int right = nums.length-1;
         if(right ==0)return nums[0];
         int left = 0;
-        int k=0;
+        
         while(left <= right ){
             int mid = (left + right )/2;
             int dava = left;
@@ -36,8 +36,7 @@ class Solution {
             }
 
 
-            k = nums[mid];
         }
-        return k;
+        return -1;
     }
 }
