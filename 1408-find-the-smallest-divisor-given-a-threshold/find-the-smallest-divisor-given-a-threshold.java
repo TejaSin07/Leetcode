@@ -1,6 +1,5 @@
 class Solution {
     public int smallestDivisor(int[] nums, int threshold) {
-        int min=nums[0];
         int max=nums[0];
 
         for(int z : nums){
