@@ -1,19 +1,35 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        int map1[] = new int[200];
-        int map2[] = new int[200];
-        
-        if(s.length() != t.length())return false;
-        for(int i = 0;i<s.length();i++){
-
-            if(map1[s.charAt(i)] != map2[t.charAt(i)]){
-            return false;
-            }
-            map1[s.charAt(i)] = i+1;
-            map2[t.charAt(i)] = i+1;
+       
+     int [] ar = new int [128];
+     int [] kr = new int [128]; 
+    for(int i = 0;i<s.length();i++){
+        char m = s.charAt(i);
+        char n = t.charAt(i);
+        if(ar[m]==0 && kr[n]==0){
+            ar[m] = n;
+            kr[n] = m;
         }
-
-        return true;
-
+        else if (ar[m] != n || kr[n] != m){
+            return false;
+        }
+    }
+    return true;
     }
 }
+
+
+    //  int [] ar = new int [128];
+    //  int [] kr = new int [128];
+    //  int sum1= 0;
+    //  int sum2 = 0;
+    //  for(int i =0;i<s.length();i++){
+    //     ar[s.charAt(i)] += 1;
+    //     kr[t.charAt(i)] += 1;
+    //     sum1 += ar[s.charAt(i)];
+    //     sum2 += kr[t.charAt(i)] ;
+    //     if(sum1 != sum2){
+    //         return false;
+    //     }
+    //  }
+    // return true;
