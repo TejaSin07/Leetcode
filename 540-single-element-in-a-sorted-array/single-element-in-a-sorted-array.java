@@ -34,6 +34,6 @@ class Solution {
 
 
         }
-        return nums[right];
+        return 0;
     }
 }
