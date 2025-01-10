@@ -8,15 +8,15 @@ class Solution {
     }
 
     private static int helperCount(String s,int start){
-        int charAr[] = new int[128];
+        int charAr[] = new int[26];
         int end = start;
         int max = 0;
         
         int count=0;
         while(end< s.length()){
 
-             charAr[s.charAt(end)]++;
-             max = Math.max(charAr[s.charAt(end)],max);
+             charAr[s.charAt(end)-'a']++;
+             max = Math.max(charAr[s.charAt(end)-'a'],max);
             int min = Integer.MAX_VALUE;
              for (int freq : charAr) {
                
