@@ -1,32 +1,37 @@
 class Solution {
-public int myAtoi(String str) {
-    int index = 0, sign = 1, total = 0;
-    //1. Empty string
-    if(str.length() == 0) return 0;
-
-    //2. Remove Spaces
-    while(index < str.length() && str.charAt(index) == ' ' )
-        index ++;
-
-    //3. Handle signs
-    if(index < str.length() && (str.charAt(index) == '+' || str.charAt(index) == '-')){
-        sign = str.charAt(index) == '+' ? 1 : -1;
-        index ++;
+    public int myAtoi(String s) {
+        // Call the recursive helper function
+        return myAtoiHelper(s.trim(), 0, 0, 1);
     }
-    
-    //4. Convert number and avoid overflow
-    while(index < str.length()){
-        int digit = str.charAt(index) - '0';
-        if(digit < 0 || digit > 9) break;
 
-        //check if total will be overflow after 10 times and add digit
-        if(Integer.MAX_VALUE/10 < total || Integer.MAX_VALUE/10 == total && Integer.MAX_VALUE %10 < digit)
+    private int myAtoiHelper(String s, int index, int result, int sign) {
+        // Base case: If we've reached the end of the string, return the result with the correct sign
+        if (index >= s.length()) {
+            return result * sign;
+        }
+
+        char currentChar = s.charAt(index);
+
+        // Handle sign on the first character
+        if (index == 0 && (currentChar == '-' || currentChar == '+')) {
+            sign = (currentChar == '-') ? -1 : 1;
+            return myAtoiHelper(s, index + 1, result, sign);  // Move to the next character
+        }
+
+        // If it's not a digit, stop processing
+        if (!Character.isDigit(currentChar)) {
+            return result * sign;
+        }
+
+        // Convert the character to a digit
+        int digit = currentChar - '0';
+
+        // Update the result and check for overflow/underflow
+        if (result > (Integer.MAX_VALUE - digit) / 10) {
             return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
 
-        total = 10 * total + digit;
-        index ++;
-    }
-    return total * sign;
-}
-    
-}
+        // Update the result and move to the next character
+        result = result * 10 + digit;
+        return myAtoiHelper(s, index + 1, result, sign);
+    }}
