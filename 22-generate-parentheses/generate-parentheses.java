@@ -14,7 +14,7 @@ private List<String> k = new ArrayList<>();
     }
 
    
-    private void helper(char[] sol, int tl, int cL, int ob, int cc) {
+    private  void helper(char[] sol, int tl, int cL, int ob, int cc) {
         if (tl == cL) {
             String a = new String(sol);
             k.add(a);
