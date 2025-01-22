@@ -26,7 +26,7 @@ private List<String> k = new ArrayList<>();
             helper(sol, tl, cL + 1, ob, cc + 1);
         }
 
-        if ((cL - cc) < cc && (cL - cc) < ob) {
+        if ((cL - cc) < cc ) {
             sol[cL] = ')';
             helper(sol, tl, cL + 1, ob, cc);
         }
