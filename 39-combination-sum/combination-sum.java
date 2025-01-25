@@ -18,7 +18,12 @@ class Solution {
             temp.add(cand[index]);
             backTrack(index,cand,target-cand[index],temp,result);
             temp.remove(temp.size()-1);
+
+            while(index < cand.length-1  && cand[index] == cand[index+1]   ){
+                index++;
+            }
         }
+
          backTrack(index+1,cand,target,temp,result);
     }
 }
