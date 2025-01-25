@@ -3,7 +3,6 @@ class Solution {
         List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         List<Integer> temp = new ArrayList<>();
-
         backTrack(0,nums,result,temp);
         
         return result;
