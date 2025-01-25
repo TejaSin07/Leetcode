@@ -1,16 +1,16 @@
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        Set<List<Integer>> hash = new HashSet<>(); 
+        List<List<Integer>> result = new ArrayList<>();
         Arrays.sort(nums);
         List<Integer> temp = new ArrayList<>();
 
-        backTrack(0,nums,hash,temp);
-        List<List<Integer>> result = new ArrayList<>(hash);
+        backTrack(0,nums,result,temp);
+        
         return result;
     }
 
 
-    private void backTrack(int index,int[] nums,Set<List<Integer>> hash,List<Integer> temp ){
+    private void backTrack(int index,int[] nums,List<List<Integer>> hash,List<Integer> temp ){
         if(index == nums.length){
             hash.add(new ArrayList<>(temp));
             return ;
