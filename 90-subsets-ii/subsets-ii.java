@@ -22,6 +22,10 @@ class Solution {
 
         temp.remove(temp.size()-1);
 
+        while(index < nums.length-1 && nums[index]==nums[index+1]){
+            index++;
+        }
+
         
         backTrack(index+1,nums,hash,temp);
     }
