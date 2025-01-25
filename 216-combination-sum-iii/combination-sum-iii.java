@@ -18,15 +18,13 @@ class Solution {
         if(index >= 9){
             return;
         }
-        if(nums[index] <= target){
-        temp.add(nums[index]);
         
-        backTrack(index+1, k, target-nums[index],result,temp,nums);
+            temp.add(nums[index]);
+            
+            backTrack(index+1, k, target-nums[index],result,temp,nums);
 
-        temp.remove(temp.size()-1);
-        
-       
-      }
+            temp.remove(temp.size()-1);
+      
        backTrack(index+1, k, target,result,temp,nums);
       }
 }
