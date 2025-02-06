@@ -1,23 +1,22 @@
 class Solution {
     public int rob(int[] nums) {
-       int  n = nums.length;
-        int[] dp = new int [n];
+        int  n = nums.length;
+        int [] arr = new int[n];
         for(int i = 0;i<n;i++){
-            dp[i] = -1;
+            arr[i] = -1;
         }
-        return helper(n-1,nums,dp);
+        return dp(n-1,arr,nums);
     }
+    public int dp(int ind,int [] arr,int [] nums){
+        if(ind<0) return 0;
+        if(ind == 0 ) return nums[0];
 
-   public int helper(int n,int[] nums,int [] dp){
-        int amt = 0;
-        if(n < 0) return 0;
-        if(n == 0) return nums[0];
+        if(arr[ind] != -1) return arr[ind];
 
-        if(dp[n] != -1) return dp[n];
-        int pick = nums[n] + helper(n-2,nums,dp);
-        int not = helper(n-1,nums,dp); 
+        int pick = nums[ind] +  dp(ind-2,arr,nums);
+        int notpick =  dp(ind-1,arr,nums);
 
-        dp[n] = Math.max(pick,not);
-        return dp[n];
+        arr[ind] = Math.max(pick,notpick);
+        return arr[ind];
     }
 }
