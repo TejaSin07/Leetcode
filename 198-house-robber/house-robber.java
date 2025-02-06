@@ -7,7 +7,7 @@ class Solution {
         }
         return dp(n-1,arr,nums);
     }
-    public int dp(int ind,int [] arr,int [] nums){
+    public static int dp(int ind,int [] arr,int [] nums){
         if(ind<0) return 0;
         if(ind == 0 ) return nums[0];
 
