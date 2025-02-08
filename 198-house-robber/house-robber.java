@@ -1,22 +1,21 @@
 class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
-        int [] dp = new int[n];
-        dp[0] =nums[0];
-        int pick =0;
+        // int [] dp = new int[n];
+        int prev =nums[0];
+        int sprev = 0;
         for(int i = 1;i< nums.length;i++){
             
-           if(i-2>=0){
-                pick = nums[i] + dp[i-2];
-           }
-           else{
-                pick = nums[i];
-           }
-            int notpick = dp[i-1];
+        
+        int pick = nums[i] + sprev;
+        int notpick = prev;
     
-            dp[i] = Math.max(pick,notpick);
+        int cur = Math.max(pick,notpick);
+
+        sprev = prev;
+        prev = cur;
         }
 
-        return dp[n-1];
+        return prev;
     }
 }
