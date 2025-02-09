@@ -6,10 +6,10 @@ class Solution {
             for(int j = 0;j<s.length();j++){
                 if(s.charAt(i) == s.charAt(j)){
                     count++;
-                }
-                if(count >1){
-                    break;
-                }
+                 }
+                 if(count >1){
+                     break;
+                 }
             }
             if(count == 1){
                 return i;
