@@ -1,30 +1,16 @@
 class Solution {
     public boolean check(int[] nums) {
-       int k = 0;
-       for(int i = 0;i < nums.length-1;i++ ) {
-        if(nums[i+1] >= nums[i]){
-            continue;
+        // here we compare all the neighbouring elemnts and check whether they are in somewhat sorted
+        // there will be a small change due to rotation in the array at only one place.
+        // so if there are irregularities more than once, return false
+        // else return true;
+        int irregularities = 0;
+        int length = nums.length;
+        for (int i=0; i<length; i++) {
+            if (nums[i] > nums[(i + 1) % length])
+                irregularities += 1;
+            if(irregularities>1)return false;
         }
-        else{
-            k++;
-            if(k>1){
-                return false;
-            }
-
-        }
-       }
-       if(k == 0){
-        return true;
-       }
-
-       if(k==1){
-        if(nums[0] >= nums[nums.length-1]){
-            return true;
-        }
-        else{
-            return false;
-        }
-       }
-       return true;
+        return  true;
     }
 }
