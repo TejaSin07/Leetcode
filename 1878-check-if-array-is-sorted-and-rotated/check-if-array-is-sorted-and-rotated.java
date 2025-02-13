@@ -9,8 +9,7 @@ class Solution {
         for (int i=0; i<length; i++) {
             if (nums[i] > nums[(i + 1) % length])
                 irregularities += 1;
-            if(irregularities>1)return false;
         }
-        return  true;
+        return irregularities > 1 ? false : true;
     }
 }
