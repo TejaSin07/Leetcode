@@ -2,36 +2,23 @@ class Solution {
     public int minPathSum(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[][] dp = new int[m][n];
-        for(int i = 0;i< m;i++){
-            Arrays.fill(dp[i],-1);
+        int dp [] = new int[n];
+        dp[0] = grid[0][0];
+        for(int i =1;i<n;i++){
+            dp[i] = grid[0][i]+dp[i-1];
         }
-        
-        int sol[] =  new int[2];
-        return helper(m-1,n-1,dp,grid);
+        for(int row = 1;row< m;row++){
+            for(int col = 0;col<n ;col++){
+                int down = Integer.MAX_VALUE;
+                int right = Integer.MAX_VALUE;
+                if(col != 0 ){
+                    right = grid[row][col] + dp[col-1];   
+                }
+                down =  grid[row][col] + dp[col];
+
+                dp[col] = Math.min(right,down) ;
+        }
+        }
+        return dp[n-1];  
     }
-    public int helper(int row,int col,int[][] dp,int[][] arr){
-        if(dp[row][col] != -1) return dp[row][col];
-    int left =  Integer.MAX_VALUE;
-    int up = Integer.MAX_VALUE;
-        if(row == 0 && col == 0){
-            dp[row][col] = arr[row][col];
-            return dp[row][col];
-        }
-
-        if(row>0){
-            //up
-            up = helper(row-1,col,dp,arr) + arr[row][col]; 
-        }
-        if(col>0){
-            //left 
-            left = helper(row,col-1,dp,arr) + arr[row][col];
-        }
-
-
-        dp[row][col] = Math.min(left,up);
-
-        return dp[row][col];
-
-     }
 }
