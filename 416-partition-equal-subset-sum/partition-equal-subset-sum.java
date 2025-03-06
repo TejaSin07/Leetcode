@@ -16,7 +16,7 @@ class Solution {
         return helper(n-1,target,nums,dp); 
     }
 
-        public static  boolean helper(int i,int target,int [] nums,int[][]dp){
+        public   boolean helper(int i,int target,int [] nums,int[][]dp){
             if(target==0){
                 return true;
             }
