@@ -1,15 +1,25 @@
 class Solution {
     public int maximumCount(int[] nums) {
-        int len = nums.length;
-        int neg = 0;
-        int z = 0;
-        for(int i = 0;i< len;i++){
-            if(nums[i]< 0) neg++;
-            
-            if(nums[i]== 0) z++;
+        int ngc = binsearch(nums,0);
+        int ptc = nums.length-binsearch(nums,1);
+        return Math.max(ngc,ptc);
+    }
 
-            if(nums[i]> 0 )break;
+    public int binsearch(int [] nums,int target){
+        int left = 0;
+        int right = nums.length-1;
+        int result = nums.length;
+
+        while(left <= right){
+            int mid = (left + right)/2;
+            if(nums[mid] < target){
+                left = mid+1;
+            }
+            else{
+                result = mid;
+                right = mid-1;
+            }
         }
-        return Math.max(neg,len - z-neg);
+        return result;
     }
 }
