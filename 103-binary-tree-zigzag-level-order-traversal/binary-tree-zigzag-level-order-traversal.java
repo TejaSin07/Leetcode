@@ -21,7 +21,6 @@ class Solution {
             return result;
         }
         que.add(root);
-        int count =0;
         while(!que.isEmpty()){
             int level = que.size();
             List<Integer> arr = new ArrayList<>();
@@ -35,9 +34,21 @@ class Solution {
                 arr.add(que.peek().val);
                 que.remove(que.peek());
             }
-            count++;
-            if(count%2 == 0)Collections.reverse(arr);
             result.add(arr);
+        }
+        int count = 0;
+        for(List<Integer> list : result){
+            count++;
+            if(count%2 == 1)continue;
+            int i = 0;
+            int j = list.size()-1;
+            while(i<j){
+                int temp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, temp);
+                i++;
+                j--;
+            }
         }
         return result; 
     }
