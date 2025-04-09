@@ -1,21 +1,24 @@
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        Map<Character, Character> mapping = new HashMap<>();
-        mapping.put(')', '(');
-        mapping.put('}', '{');
-        mapping.put(']', '[');
+        Stack<Character> stk = new Stack<>();
+        HashMap<Character,Character> map = new HashMap<>();
 
-        for (char c : s.toCharArray()) {
-            if (mapping.containsValue(c)) {
-                stack.push(c);
-            } else{
-                if (stack.isEmpty() || mapping.get(c) != stack.pop()) {
-                    return false;
-                }
+        map.put(')','(');
+        map.put('}','{');
+        map.put(']','[');
+
+        for(char c : s.toCharArray()){
+            if(map.containsValue(c)){
+                stk.push(c);
+            }
+
+        else{
+            if(stk.isEmpty() || map.get(c) != stk.pop()){
+                return false;
             }
         }
+        }
+        return stk.isEmpty();
 
-        return stack.isEmpty();        
     }
 }
