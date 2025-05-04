@@ -24,5 +24,6 @@ class Solution {
                 count2--;
             }
         }
+        System.gc();
     }
 }
