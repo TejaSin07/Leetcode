@@ -15,21 +15,18 @@ class Solution {
     }
 
     public void merge(int [] nums ,int left ,int mid,int right,int[] count){
-            int j = mid + 1;
-
-    // Count the reverse pairs
-        for (int i = left; i <= mid; i++) {
-            while (j <= right && (long)nums[i] > 2L * nums[j]) {
+        for (int i = left, j = mid + 1; i <= mid && j <= right;) {
+            if ((long) nums[i] > 2L * nums[j]) {
+                count[0] += mid - i + 1;
                 j++;
+            } else {
+                i++;
             }
-            count[0] += (j - (mid + 1));
         }
         int l = left ;
         int r = mid+1;
-    
         ArrayList<Integer> list = new ArrayList<>();
-        while(l <= mid && r  <= right){ //before executing this condition left & right part always be sorted
-            
+        while(l <= mid && r  <= right){ //before executing this condition left part always be sorted
             if(nums[l] > nums[r]){
                 list.add(nums[r++]);
             }
