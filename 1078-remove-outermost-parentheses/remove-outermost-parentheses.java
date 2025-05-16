@@ -1,24 +1,22 @@
 class Solution {
     public String removeOuterParentheses(String s) {
-        StringBuilder sb = new StringBuilder();
-        int count = 0;
-        for (char ch : s.toCharArray()) {
-            if(Character.toString(ch).equals("(")) {
-                count++;//1,2
-            }
-            else{
-                count--;//1
-                if(count > 0){
-                    sb.append(ch);
-                    continue;
+        Stack<Character> stk = new Stack<>();
+        StringBuilder str = new StringBuilder();
+        
+        int start = 0; // To track start of primitive
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stk.push('(');
+            } else {
+                stk.pop();
+                if (stk.isEmpty()) {
+                    // Add inner part (exclude outermost '(' and ')')
+                    str.append(s.substring(start + 1, i));
+                    start = i + 1; // update start for next primitive
                 }
             }
-            if(count>1){//
-                sb.append(ch);//()( 
-            }
-            
         }
-        String result = sb.toString();
-        return result;
+        return str.toString();
     }
 }
