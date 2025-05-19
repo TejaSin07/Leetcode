@@ -29,17 +29,17 @@ class Solution {
 
     }
 
-         String removeSpace(char[] a){
-            int n = a.length;
-            int i = 0, j = 0;
-            while(i < n ){
-                while(i< n && a[i] == ' ')i++;
-                while (i<n && a[i] != ' ')a[j++] = a[i++];
-                while(i<n && a[i] == ' ')i++;
-                if(i<n){
-                    a[j++] = ' ';
-                }
+    static String removeSpace(char[] a){
+        int n = a.length;
+        int i = 0, j = 0;
+        while(i < n ){
+            while(i< n && a[i] == ' ')i++;
+            while (i<n && a[i] != ' ')a[j++] = a[i++];
+            while(i<n && a[i] == ' ')i++;
+            if(i<n){
+                a[j++] = ' ';
             }
-            return new String(a).substring(0, j);
+        }
+        return new String(a).substring(0, j);
         }
 }
