@@ -4,7 +4,7 @@ class Solution {
         int count = 0;
         for(int i = 0;i< s.length();i++){
             if(s.charAt(i) == '('){
-                stk.push('c');
+                stk.push('(');
             }
             else if(!stk.empty()){
                 stk.pop();
@@ -15,4 +15,7 @@ class Solution {
         }
         return count+stk.size();
     }
+
+    //tc : O(n)
+    //sc : O(1)
 }
