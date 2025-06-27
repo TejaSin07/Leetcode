@@ -1,30 +1,26 @@
 class Solution {
     public List<List<Integer>> combinationSum3(int k, int n) {
-        int[] base = {1,2,3,4,5,6,7,8,9};
-        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> lst = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
-
-        backTrack(0, k, n,result,temp,base);
-        return result;
+        int len = 9;
+        helper(1,len,temp,lst,k,n);
+        return lst;
     }
 
-      public void backTrack(int index,int k,int target,List<List<Integer>> result,List<Integer> temp,int [] nums){
-        if(temp.size() == k){
-            if(target == 0){
-                result.add(new ArrayList(temp));
+    public static void helper(int ind,int len,List<Integer> temp,List<List<Integer>>lst,int k,int target){
+        if(temp.size() >= k ){
+            if(target == 0 && temp.size() == k){
+                lst.add(new ArrayList<>(temp));
             }
             return;
         }
-        if(index >= 9){
-            return;
-        }
-        
-            temp.add(nums[index]);
-            
-            backTrack(index+1, k, target-nums[index],result,temp,nums);
 
+        if(ind <= target && ind <= len){
+            temp.add(ind);
+            helper(ind+1,len,temp,lst,k,target -ind);
             temp.remove(temp.size()-1);
-      
-       backTrack(index+1, k, target,result,temp,nums);
-      }
+            helper(ind+1,len,temp,lst,k,target);
+
+        }
+    }
 }
