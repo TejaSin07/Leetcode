@@ -8,8 +8,8 @@ class MyStack {
     public void push(int x) {
         que.add(x);
 
-        for(int i = 1;i< que.size();i++){
-            que.add(que.peek());
+        for(int i = 1;i< que.size();i++){ // this block used to reverse queue
+            que.add(que.peek());  
             que.remove();
         }
     }
