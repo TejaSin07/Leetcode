@@ -17,8 +17,12 @@ class MyQueue {
         if (stack.isEmpty()) {
             // This is the front of the queue
             return x;
-        } else {
+        } 
+        else {
             int res = pop(); // Recursively get to the bottom
+            //  int res = stack.pop(); why we get wrong ans if we us stack.pop()
+            // coz when we call stack.pop() we are just poping the last element of stack
+            //but when we are using just pop() we recursivly calling pop() method only.
             stack.push(x);   // Put back the elements as we unwind
             return res;
         }
