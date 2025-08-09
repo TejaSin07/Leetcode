@@ -1,72 +1,27 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
+    int maxDistance = 0;
     public int amountOfTime(TreeNode root, int start) {
-        HashMap<Integer,Set<Integer>> adjMap = new HashMap<>();
-
-        createAdjList(root,0,adjMap);
-        Set<Integer> visited  = new HashSet<>();
-        Queue<Integer> infeQue = new LinkedList<>();
-        int minutes = 0;
-        int curQSize = 0;
-
-        infeQue.add(start);
-        visited.add(start);
-
-        while(!infeQue.isEmpty()){
-            curQSize = infeQue.size();
-            while(curQSize > 0){
-
-                int curNode = infeQue.poll();
-
-                for(int curNeighbor : adjMap.get(curNode)){
-                    if(!visited.contains(curNeighbor)){
-                        infeQue.add(curNeighbor);
-                        visited.add(curNeighbor);
-                    }
-                }
-                curQSize--;
-            }
-            minutes++;
-
-        }
-        return minutes-1;
+        dfs(root, start);
+        return maxDistance;
     }
 
-    private static void createAdjList(TreeNode root,int parent, HashMap<Integer,Set<Integer>> adjMap){
+    private int dfs(TreeNode root, int start) {
+        int depth = 0;
+        if(root == null) return depth;
 
-        if(root == null)return ;
+        int leftMax = dfs(root.left, start);
+        int rightMax = dfs(root.right, start);
 
-        if(!adjMap.containsKey(root.val)){
-            adjMap.put(root.val,new HashSet<>());
+        if(root.val == start) {
+            maxDistance = Math.max(leftMax, rightMax);
+            depth = -1;
+        } else if(leftMax >= 0 && rightMax >= 0) {
+            depth = Math.max(leftMax, rightMax) + 1;
+        } else {
+            int distance = Math.abs(leftMax) + Math.abs(rightMax);
+            maxDistance = Math.max(maxDistance, distance);
+            depth = Math.min(leftMax, rightMax) - 1;
         }
-
-        Set<Integer> curSet = adjMap.get(root.val);
-        if(parent != 0){
-            curSet.add(parent);
-        }
-
-        if(root.left != null){
-            curSet.add(root.left.val);
-        }
-        if(root.right != null){
-            curSet.add(root.right.val);
-        }
-
-        createAdjList(root.left,root.val,adjMap);
-        createAdjList(root.right,root.val,adjMap);
+        return depth;
     }
 }
