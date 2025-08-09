@@ -1,52 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    public int amountOfTime(TreeNode root, int start) { 
-        Map<Integer, Set<Integer>> adjacencyMap = new HashMap<>(); // Graph representation of tree
-        convert(root, 0, adjacencyMap); // Convert tree into graph format   
-        Queue<Integer> infectionQueue = new LinkedList<>(); // BFS queue for infected nodes
-        infectionQueue.add(start); // Start infection from the given node
-        
-        int minutesElapsed = 0; // Time counter
-        Set<Integer> infectedNodes = new HashSet<>(); // Track visited (infected) nodes
-        infectedNodes.add(start); // Mark start node as infected
+    public int amountOfTime(TreeNode root, int start) {
+        HashMap<Integer,Set<Integer>> adjMap = new HashMap<>();
 
-        while (!infectionQueue.isEmpty()) { // BFS traversal
-            int nodesInCurrentMinute = infectionQueue.size(); // Number of nodes to process this minute
-            while (nodesInCurrentMinute > 0) { // Process all nodes in current minute
-                int currentNode = infectionQueue.poll(); // Get current infected node
+        createAdjList(root,0,adjMap);
+        Set<Integer> visited  = new HashSet<>();
+        Queue<Integer> infeQue = new LinkedList<>();
+        int minutes = 0;
+        int curQSize = 0;
 
-                for (int neighbor : adjacencyMap.get(currentNode)) { // Check all connected nodes
-                    if (!infectedNodes.contains(neighbor)) { // If not yet infected
-                        infectedNodes.add(neighbor); // Mark as infected
-                        infectionQueue.add(neighbor); // Add to queue for next minute
+        infeQue.add(start);
+        visited.add(start);
+
+        while(!infeQue.isEmpty()){
+            curQSize = infeQue.size();
+            while(curQSize > 0){
+
+                int curNode = infeQue.poll();
+
+                for(int curNeighbor : adjMap.get(curNode)){
+                    if(!visited.contains(curNeighbor)){
+                        infeQue.add(curNeighbor);
+                        visited.add(curNeighbor);
                     }
                 }
-                nodesInCurrentMinute--; // Move to next node in current batch
+                curQSize--;
             }
-            minutesElapsed++; // One minute passes after processing this batch
+            minutes++;
+
         }
-        return minutesElapsed - 1; // Subtract 1 because last increment happens after infection finishes
+        return minutes-1;
     }
 
-    void convert(TreeNode currentNode, int parentNode, Map<Integer, Set<Integer>> adjacencyMap) { // Convert tree into undirected graph
-        if (currentNode == null) { // Base case
-            return;
-        } 
-        if (!adjacencyMap.containsKey(currentNode.val)) { // Create adjacency list entry if absent
-            adjacencyMap.put(currentNode.val, new HashSet<>());
+    private static void createAdjList(TreeNode root,int parent, HashMap<Integer,Set<Integer>> adjMap){
+
+        if(root == null)return ;
+
+        if(!adjMap.containsKey(root.val)){
+            adjMap.put(root.val,new HashSet<>());
         }
-        Set<Integer> connections = adjacencyMap.get(currentNode.val); // Get list of connected nodes
-        
-        if (parentNode != 0) { // If not root, connect to parent
-            connections.add(parentNode);
-        } 
-        if (currentNode.left != null) { // Connect to left child
-            connections.add(currentNode.left.val);
-        } 
-        if (currentNode.right != null) { // Connect to right child
-            connections.add(currentNode.right.val);
+
+        Set<Integer> curSet = adjMap.get(root.val);
+        if(parent != 0){
+            curSet.add(parent);
         }
-        
-        convert(currentNode.left, currentNode.val, adjacencyMap); // Recurse left
-        convert(currentNode.right, currentNode.val, adjacencyMap); // Recurse right
+
+        if(root.left != null){
+            curSet.add(root.left.val);
+        }
+        if(root.right != null){
+            curSet.add(root.right.val);
+        }
+
+        createAdjList(root.left,root.val,adjMap);
+        createAdjList(root.right,root.val,adjMap);
     }
 }
