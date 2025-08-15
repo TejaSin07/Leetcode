@@ -1,33 +1,33 @@
 class Solution {
     public boolean isBipartite(int[][] graph) {
-        int len = graph.length;
-        int visited [] = new int[len];
-        Arrays.fill(visited,-1);
-        
-        for(int i = 0;i<len;i++){
-            if(visited[i] == -1){
-                visited[i] =0;
-                if(!dfs(i,visited,graph)){
-                    return false;
-                }
+        int row = graph.length;
+        boolean vis [] = new boolean[row];
+        int color [] = new int[row];
+
+        for (int i = 0; i < row; i++) {
+            if (!vis[i]) {
+                vis[i] = true;
+                color[i] = 0;
+                if (!helper(i, graph, vis, row, color)) return false;
             }
-        }
-        return true;
-        
+
     }
 
-    public boolean dfs(int cur,int[] visited,int [][] graph){
-        
-        for(int next : graph[cur]){
-            if( visited[next] == -1){
-                visited[next] = 1 - visited[cur];
-                if(!dfs(next,visited,graph)){
-                    return false;
-                }
+        return true;
+    }
 
-            }
-            else if (visited[cur] == visited[next]){
+    private static boolean helper(int idx,int[][] graph,boolean[] vis,int row,int[] color){
+        boolean status = true;
+        for(int i = 0;i<graph[idx].length;i++){
+            int curNode = graph[idx][i];
+            if(vis[curNode] == true && color[curNode] == color[idx]){
                 return false;
+            }
+            color[curNode] = Math.abs(color[idx]-1);
+            if(!vis[curNode]){
+                vis[curNode] = true;
+                if(!helper(curNode,graph,vis,row,color))return false;
+               
             }
         }
         return true;
