@@ -1,44 +1,38 @@
 class Solution {
-    public int[] findOrder(int V, int[][] edges) {
-        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
-
-        for(int i = 0;i< V;i++){
-            arr.add(new ArrayList<>());
+    public int[] findOrder(int courses, int[][] prereq) {
+        int []  ans = new int [courses];
+        int curCount = 0;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0;i<courses;i++){
+            adj.add(new ArrayList<>());
         }
-//try with uncomenting below line
-        for(int [] temp : edges){
-            arr.get(temp[0]).add(temp[1]);
-            // arr.get(temp[1]).add(temp[0]);
-        }
+        int [] indegree = new int[courses];
 
-        int [] indgre =new int[V];
-        for(int i = 0;i<V;i++){
-            for(int tmp: arr.get(i)){
-                indgre[tmp]++;
+        for(int [] arr:prereq){
+            adj.get(arr[1]).add(arr[0]);
+            indegree[arr[0]]++;
+        }
+        Queue<Integer> que = new LinkedList<>();
+
+        for(int i= 0;i< courses;i++){
+            if(indegree[i]==0){
+                que.add(i);
+                ans[curCount++] = i;
             }
         }
-        Queue<Integer>que = new LinkedList<>();
-        for(int i =0;i< V;i++){
-            if(indgre[i]==0)que.add(i);
-        }
-        int [] res = new int[V];
-        int i = V-1;
-        int count=0;
-        //int i = 0;
-        while(!que.isEmpty()){
-            int node = que.peek();
-            que.remove();
-            res[i--] = node;
-            count++;
-            //res[i++] = node
+       
+       while(!que.isEmpty()){
+            int curIdx = que.poll();
 
-            for(int tmp : arr.get(node)){
-                indgre[tmp]--;
-                if(indgre[tmp]==0)que.add(tmp);
+            for(int i : adj.get(curIdx)){
+                indegree[i]--;
+                if(indegree[i] == 0){
+                    que.add(i);
+                    ans[curCount++] = i;
+                }
             }
-        }
-        if(count == V)return res;
-        System.gc();
-        return new int[0];
+       }
+       if(curCount == courses)return ans;
+       return new int[0];
     }
 }
