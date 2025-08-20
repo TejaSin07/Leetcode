@@ -1,31 +1,32 @@
 class Solution {
     public int rob(int[] nums) {
-        int n = nums.length;
-        int [] arr = new int [n];
+        
+        int len = nums.length;
+        if(len ==1) return nums[0];
+        int [] dpt = new int [len];
+        int [] dpnt = new int [len];
 
-        if(n==1) return nums[0];
+        Arrays.fill(dpt,-1);
+        Arrays.fill(dpnt,-1);
 
-        for(int i = 0;i< n;i++){
-            arr[i] = -1;
-        }
-        int A = helper(n-1,arr,nums,1);
-        for(int i = 0;i< n;i++){
-            arr[i] = -1;
-        }
-        int b = helper(n-2,arr,nums,0);
+        int a = helper(len-1,dpt,nums,1);
+        int b = helper(len-2,dpnt,nums,0);
 
-        return Math.max(A,b);
+        return Math.max(a,b);
     }
 
-    public int helper(int n,int [] arr,int[] nums,int end){
-        if(n == end) return nums[n];
-        if(n < end) return 0;
-        if(arr[n] != -1) return arr[n];
 
-        int pick = nums[n] +  helper(n-2,arr,nums,end);
-        int notpick =  helper(n-1,arr,nums,end);
+    public static int helper(int idx,int [] dp,int[] nums,int end){
+        if(idx == end )return nums[idx];
+        if(idx < end) return 0;
 
-        arr[n] = Math.max(pick,notpick);
-        return arr[n];
+        if(dp[idx] != -1)return dp[idx];
+
+        int taken = nums[idx]+helper(idx-2,dp,nums,end);
+        int nottaken = helper(idx-1,dp,nums,end);
+
+        dp[idx] = Math.max(taken,nottaken);
+        return dp[idx];
+
     }
 }
