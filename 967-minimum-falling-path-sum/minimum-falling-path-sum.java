@@ -13,6 +13,7 @@ class Solution {
 
 
     private static int helper(int i,int j,int[][] dp,int [][] matrix,int [][]dir,boolean [][] vis){
+        if(i >= dp.length || j < 0 || j >= dp.length )return Integer.MAX_VALUE;
         if(i == dp.length -1){
             dp[i][j] = matrix[i][j];
             vis[i][j] = true;
@@ -24,7 +25,7 @@ class Solution {
         for(int temp[] : dir ){
             int r =  i+temp[0];
             int c = j+temp[1];
-            if(r >= dp.length || c < 0 || c >= dp.length )continue;
+            
             
             ans = Math.min(helper(r,c,dp,matrix,dir,vis),ans);
             
