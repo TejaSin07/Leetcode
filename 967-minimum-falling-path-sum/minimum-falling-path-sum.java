@@ -1,39 +1,30 @@
 class Solution {
     public int minFallingPathSum(int[][] matrix) {
-        int len = matrix.length; //3
+        int len = matrix.length;
+        int [][] mat = new int[len][len];
+
+        for(int i = 0;i< len;i++){
+            mat[0][i] = matrix[0][i];
+        }
+        int [][] dir = {{-1,-1},{-1,0},{-1,1}};
+
+        for(int i = 1;i< len;i++){
+            
+            for(int j =0;j<len;j++){
+                int min = Integer.MAX_VALUE;
+                for(int [] temp : dir){
+                    int r = temp[0] + i;
+                    int c = temp[1] + j;
+                    if(c<0 || c>= len)continue;
+                    min = Math.min(min,mat[r][c]);
+                }
+                mat[i][j] =  min + matrix[i][j];
+            }
+        }
         int ans = Integer.MAX_VALUE;
-        int [][]  dp = new int[len][len];
-        boolean [][] vis = new boolean[len][len];
-        int [][] dir = {{1,-1},{1,0},{1,1}};
-        for(int i =0;i< len;i++){
-            ans = Math.min(helper(0,i,dp,matrix,dir,vis),ans);
+        for(int k : mat[len-1]){
+            ans = Math.min(k,ans);
         }
         return ans;
-    }
-
-
-    private static int helper(int i,int j,int[][] dp,int [][] matrix,int [][]dir,boolean [][] vis){
-        if(i >= dp.length || j < 0 || j >= dp.length )return Integer.MAX_VALUE;
-        if(i == dp.length -1){
-            dp[i][j] = matrix[i][j];
-            vis[i][j] = true;
-            return dp[i][j];
-        }
-        int ans = Integer.MAX_VALUE;
-        if(vis[i][j])return dp[i][j];
-
-        for(int temp[] : dir ){
-            int r =  i+temp[0];
-            int c = j+temp[1];
-            
-            
-            ans = Math.min(helper(r,c,dp,matrix,dir,vis),ans);
-            
-        }
-        dp[i][j] = ans+matrix[i][j];
-        vis[i][j] = true;
-        
-        return dp[i][j];
-
     }
 }
