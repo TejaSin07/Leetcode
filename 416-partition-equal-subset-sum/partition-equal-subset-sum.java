@@ -1,40 +1,32 @@
 class Solution {
     public boolean canPartition(int[] nums) {
-        int len = nums.length;
+        int len = 0;
         int sum = 0;
-        for(int i = 0;i< nums.length;i++){
-            sum += nums[i]; 
+        for(int num:nums){
+            len++;
+            sum += num;
         }
-
         if(sum%2==1)return false;
-
-        int target = sum/2;
-
-       boolean dp[][] = new boolean[len][target+1];
-
-        for(boolean temp[] : dp){
-            Arrays.fill(temp,false);
+        sum = sum/2;
+        int [][] dp = new int [len][sum+1];
+        for(int ar[] : dp){
+            Arrays.fill(ar,-1);
         }
+        return helper(0,nums,sum,dp);
+    }
 
-        for(int i = 0;i< len;i++){
-            dp[i][0] = true;
-        }
 
-        if(nums[0] <= target){
-            dp[0][nums[0]] = true;
-        }
+    private static boolean helper(int idx,int [] nums,int sum,int [][] dp){
+        if(sum == 0)return true;
 
-        for(int i = 1;i< len;i++){
-            for(int t = 1;t<= target;t++){
-                //nontaken
-                boolean  nontake = dp[i-1][t];
-                boolean take = false;
-                if(nums[i] <= t){
-                    take = dp[i-1][t- nums[i]];
-                }
-                dp[i][t] = take || nontake; 
-            }
-        }
-        return dp[len-1][target];
+        if(idx >= nums.length  || sum < 0 )return false;
+
+        if(dp[idx][sum] != -1 )return (dp[idx][sum] == 0)?true:false;
+
+        boolean take = helper(idx+1,nums,sum- nums[idx],dp);
+        boolean ntake = helper(idx+1,nums,sum,dp);
+
+        dp[idx][sum] = (take || ntake) ? 0:1;
+        return take || ntake;
     }
 }
