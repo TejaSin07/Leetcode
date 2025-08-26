@@ -1,35 +1,32 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
         int len = coins.length;
-        int dp [][] = new int[len][amount+1];
-
-        for(int temp[] : dp){
-            Arrays.fill(temp,-1);
+        int [][] dp = new int [len][amount+1];
+        for(int i[] : dp){
+            Arrays.fill(i,-1);
         }
-
-        int result = helper(len-1,amount,coins,dp);
-        if(result == Integer.MAX_VALUE -1){
-            return -1;
-        }
-        return result;
+        int ans = helper(0,coins,amount,dp);
+        if(ans > Integer.MAX_VALUE-5)return -1;
+        return ans;
     }
 
-    int helper(int row ,int target,int[] arr,int [][]dp){
-        if(target == 0) return 0;
-        if(row == 0){
-            if(target%arr[0]== 0){
-                return target/arr[0];
+
+    private static int helper(int idx,int [] arr,int target,int [][]dp){
+        if(idx == arr.length-1){
+            if(target%arr[idx] == 0 ){
+                return target/arr[idx];
             }
-            return Integer.MAX_VALUE -1;
+            else{
+                return Integer.MAX_VALUE-1;
+            }
         }
-
-        if(dp[row][target]  != -1) return dp[row][target];
-
-        int nt = helper(row-1,target,arr,dp);
-        int t = Integer.MAX_VALUE-1;
-        if(arr[row] <= target){
-            t= 1+ helper(row,target - arr[row],arr,dp);
+        if(dp[idx][target] != -1)return dp[idx][target];
+        int nontake = helper(idx+1,arr,target,dp);
+        int take = Integer.MAX_VALUE;
+        if(arr[idx] <= target){
+            take = 1+ helper(idx,arr,target-arr[idx],dp);
         }
-        return dp[row][target] =Math.min( t,nt) ;
+        dp[idx][target] = Math.min(take,nontake);
+        return dp[idx][target] ;
     }
 }
