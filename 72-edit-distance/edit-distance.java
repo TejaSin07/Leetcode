@@ -10,7 +10,7 @@ class Solution {
         return helper(0,0,word1,word2,dp);
     }
 
-    private static int helper(int idx1,int idx2,String str1,String str2,int [][] dp){
+    private  int helper(int idx1,int idx2,String str1,String str2,int [][] dp){
 
         if(idx1 ==str1.length()){
             return str2.length()-idx2;
