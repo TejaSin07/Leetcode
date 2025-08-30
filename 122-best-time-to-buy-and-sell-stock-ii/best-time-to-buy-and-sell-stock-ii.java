@@ -1,26 +1,28 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int dp [][] = new int [prices.length][2];
-        for(int ar[] : dp){
-            Arrays.fill(ar,-1);
+        int n = prices.length;
+
+        // next[0] → profit if we can buy
+        // next[1] → profit if we have stock and can sell
+        int[] next = new int[2];
+        int[] curr = new int[2];
+
+        // Base case: when index == n, profit = 0
+        next[0] = next[1] = 0;
+
+        for (int index = n - 1; index >= 0; index--) {
+            // Case when we can buy
+            curr[0] = Math.max(next[0], -prices[index] + next[1]);
+
+            // Case when we can sell
+            curr[1] = Math.max(next[1], prices[index] + next[0]);
+
+            // Move curr → next for next iteration
+            next[0] = curr[0];
+            next[1] = curr[1];
         }
 
-        return helper(0,prices,dp,0);
-    }
-
-
-    private static int helper(int idx,int [] prices,int [][]dp,int buy){
-
-        if(idx == prices.length)return 0;
-
-        if(dp[idx][buy] != -1)return dp[idx][buy];
-
-        if(buy == 0){
-            dp[idx][buy] = Math.max(helper(idx+1,prices,dp,1) - prices[idx],helper(idx+1,prices,dp,0));
-        }
-        else{
-             dp[idx][buy] = Math.max(helper(idx+1,prices,dp,0) + prices[idx],helper(idx+1,prices,dp,1));
-        }
-        return dp[idx][buy];
+        // Start at day 0 with the option to buy
+        return next[0];
     }
 }
