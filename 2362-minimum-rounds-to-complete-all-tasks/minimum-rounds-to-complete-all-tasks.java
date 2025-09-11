@@ -1,33 +1,35 @@
 class Solution {
-    public int minimumRounds(int[] tasks) {
-        int len = tasks.length;
-        int dp[] = new int [len];
-        Arrays.sort(tasks);
-        Arrays.fill(dp,Integer.MAX_VALUE);
-        int x = helper(0,tasks,dp);
-        if(x >= Integer.MAX_VALUE-500)return -1;
+    public int minimumRounds(int[] arr) {
+        int n = arr.length;
+        Arrays.sort(arr);
+        int dp[] = new int[n];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        int x = helper(0, arr, dp);
+        if(x >= Integer.MAX_VALUE-500){
+            return -1;
+        }
         return x;
     }
 
+    public int helper(int ind, int[] arr, int[] dp) {
+        if (ind >= arr.length) return 0;
+        if(dp[ind] != Integer.MAX_VALUE)return dp[ind];
 
-    private static int helper(int idx,int [] tasks,int[] dp){
+        int take = Integer.MAX_VALUE;
+        int notTake = Integer.MAX_VALUE;
 
-        if(idx >= tasks.length)return 0;
-
-        if(dp[idx] != Integer.MAX_VALUE)return dp[idx];
-        int first = Integer.MAX_VALUE-500;  
-        int second = Integer.MAX_VALUE-500;
-
-
-        if(idx+1 < tasks.length && tasks[idx] == tasks[idx+1]){
-            first = helper(idx+2,tasks,dp);
+        if (ind + 1 < arr.length && arr[ind] == arr[ind + 1]) {
+            take = 1 + helper(ind + 2, arr, dp);
         }
-        if(idx+2 < tasks.length && tasks[idx] == tasks[idx+2]){
-            second = helper(idx+3,tasks,dp);
-        }
-        
 
-       
-        return dp[idx] = 1+ Math.min(first,second);  
+        if (ind + 2 < arr.length && arr[ind] == arr[ind + 2]) {
+            notTake = 1 + helper(ind + 3, arr, dp);
+        }
+
+        if (take == Integer.MAX_VALUE && notTake == Integer.MAX_VALUE) {
+            return dp[ind] = Integer.MAX_VALUE-500;
+        }
+
+        return dp[ind] = Math.min(take, notTake);
     }
 }
