@@ -10,8 +10,9 @@ class Solution {
     }
 
     private static int helper(int idx,int[] cost,int [] dp){
-        if(idx == cost.length-1)return cost[cost.length-1];
-        if(idx == cost.length-2)return cost[cost.length-2];
+        
+        if(idx >= cost.length)return 0;
+
         if(dp[idx] != Integer.MAX_VALUE)return dp[idx];
         dp[idx] = cost[idx] + Math.min(helper(idx+1,cost,dp),helper(idx+2,cost,dp));
        
