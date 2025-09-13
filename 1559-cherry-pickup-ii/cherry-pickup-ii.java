@@ -1,48 +1,66 @@
 class Solution {
     public int cherryPickup(int[][] grid) {
-        int dir[] = new int[]{-1, 0, 1};
+        int rows = grid.length;
+        int cols = grid[0].length;
 
-        int row = grid.length;
-        int col = grid[0].length;
-        int dp[][][] = new int[row][col][col]; 
+        int dp[][][] = new int [rows][cols][cols];
         
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                for(int k = 0; k < col; k++){
-                    dp[i][j][k] = -1;
-                }
+        for(int outer2[][] : dp){
+            for(int outer[] : outer2){
+                Arrays.fill(outer,Integer.MIN_VALUE);
             }
         }
-        int col1 = 0; 
-        int col2 = col - 1; 
-        
-        dp[0][col1][col2] = grid[0][col1] + grid[0][col2]; 
-        int max = dp[0][col1][col2]; 
-        
-        for(int i = 1; i < row; i++){ 
-            for(int c1 = 0; c1 < col; c1++){ 
-                for(int c2 = 0; c2 < col; c2++){
-                    int prev = dp[i - 1][c1][c2]; 
-                    if(prev >= 0){ 
-                        for(int d1: dir){ 
-                            col1 = d1 + c1;
-                            for(int d2: dir){ 
-                                col2 = d2 + c2;
-                                if(inRange(col1, col) && inRange(col2, col)){
-                                    dp[i][col1][col2] = Math.max(dp[i][col1][col2], prev+(col1 == col2 ? grid[i][col1] : (grid[i][col1] + grid[i][col2]))); 
-                                    max = Math.max(max, dp[i][col1][col2]); 
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-            }
-        }
-        return max;
+
+        return helper(0,0,cols-1,grid,dp,rows,cols);
     }
 
-    public boolean inRange(int val, int limit){
-        return 0 <= val && val < limit;
+
+    private static int helper(int r1,int c1,int c2,int [][] grid,int [][][] dp,int rows,int cols){
+
+        if(r1 == rows || c1 == cols || c2 == cols || c1 == -1 || c2 == -1)return Integer.MIN_VALUE;
+
+        if(r1 == rows-1){
+            if(c1 == c2){
+                return grid[r1][c1];
+            }
+            else{
+                return grid[r1][c1] + grid[r1][c2];
+            }
+        }
+
+        if(dp[r1][c1][c2] != Integer.MIN_VALUE)return dp[r1][c1][c2] ;
+        int val = 0;
+        if(c1 == c2){
+                val +=  grid[r1][c1];
+            }
+        else{
+                val +=  grid[r1][c1] + grid[r1][c2];
+        }
+
+        int max = Integer.MIN_VALUE;
+        for(int i = -1;i<=1;i++){
+            for(int j = -1;j<= 1;j++){
+                int temp = helper(r1+1,c1+i,c2+j,grid,dp,rows,cols);
+                max = Math.max(temp,max);
+            }
+        }
+
+        return dp[r1][c1][c2] = max+ val; 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
