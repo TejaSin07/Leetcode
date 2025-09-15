@@ -1,37 +1,35 @@
 class Solution {
     public int minCost(int[] nums, int k) {
-        int n = nums.length; // length of nums
-        Integer[] memo = new Integer[n]; // memo[i] = min cost from index i
-        return dfs(nums, k, 0, memo); // start recursion from index 0
+        
+        int len = nums.length;
+        Integer[] dp = new Integer[len];
+
+        return helper(0,nums,k,dp);
     }
 
-    private int dfs(int[] nums, int k, int start, Integer[] memo) {
-        if (start == nums.length) return 0; // base case: no elements left → cost 0
-        if (memo[start] != null) return memo[start]; // return cached value
 
-        int n = nums.length; // length of nums
-        int[] freq = new int[n + 1]; // frequency array (values are ≤ n per constraints)
-        int trimmedLen = 0; // length of trimmed subarray
-        int ans = Integer.MAX_VALUE; // store minimum cost
+    private static int helper(int idx,int [] nums,int k ,Integer [] dp){
 
-        // try all possible end positions j for subarray starting at 'start'
-        for (int j = start; j < n; j++) {
-            int val = nums[j]; // current element
-            freq[val]++; // increment frequency
+        if(idx == nums.length)return 0;
 
-            if (freq[val] == 2) {
-                // first duplicate → contributes 2 to trimmed length
-                trimmedLen += 2;
-            } else if (freq[val] > 2) {
-                // subsequent duplicates → contribute +1
-                trimmedLen += 1;
+        if(dp[idx] != null)return dp[idx];
+
+        int [] freq = new int[nums.length+1];
+        int ans = Integer.MAX_VALUE;
+        int trimedLen = 0;
+        for(int i = idx;i<nums.length;i++){
+            int val = nums[i];
+            freq[val]++;
+
+            if(freq[val] == 2){
+                trimedLen += 2;
+            }
+            if(freq[val] > 2){
+                trimedLen += 1;
             }
 
-            // cost of choosing subarray [start..j] + cost of splitting remaining part
-            int currentCost = k + trimmedLen + dfs(nums, k, j + 1, memo);
-            ans = Math.min(ans, currentCost); // take minimum
+            ans = Math.min(k+trimedLen+helper(i+1,nums,k,dp),ans);
         }
-
-        return memo[start] = ans; // store result and return
+        return dp[idx] = ans;
     }
 }
