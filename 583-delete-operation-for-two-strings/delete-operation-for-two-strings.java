@@ -1,20 +1,19 @@
 class Solution {
-    public int minDistance(String word1, String word2) {
-        int len1 = word1.length();
-        int len2 = word2.length();
+    public int minDistance(String text1, String text2) {
+ //take best
+        Integer[][] dp = new Integer[text1.length()][text2.length()];
+        return text1.length() + text2.length() - (2*helper(0,0,text1,text2,dp));
+    }
 
-        int dp [][] = new int [len1+1][len2+1];
-        for(int i = 1;i<= len1;i++){
-            for(int j = 1;j<=len2;j++){
-                if(word1.charAt(i-1)  == word2.charAt(j-1)){
-                    dp[i][j]= dp[i-1][j-1]+1;
-                }
-                else{
-                    dp[i][j] = Math.max(dp[i][j-1],dp[i-1][j]);
-                }
-            }
-        }
+    private static int helper(int idx1,int idx2,String text1,String text2,Integer[][]dp){
+        if(idx1 == text1.length() || idx2 == text2.length())return 0;
 
-        return len1 + len2 -(2*dp[len1][len2]) ;
+        if(dp[idx1][idx2] != null)return dp[idx1][idx2];
+        if(text1.charAt(idx1) == text2.charAt(idx2)){
+            dp[idx1][idx2] =1+helper(idx1+1,idx2+1,text1,text2,dp);
+            return dp[idx1][idx2];
+        } 
+
+        return dp[idx1][idx2] =Math.max(helper(idx1,idx2+1,text1,text2,dp),helper(idx1+1,idx2,text1,text2,dp));    
     }
 }
