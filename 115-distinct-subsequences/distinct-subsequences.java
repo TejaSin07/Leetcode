@@ -1,33 +1,26 @@
 class Solution {
     public int numDistinct(String s, String t) {
-        int n = s.length();
-        int m = t.length();
-        int mod = (int) (1e9 + 7); 
+        
+        Integer[][] dp = new Integer[s.length()][t.length()];
 
-        int[][] dp = new int[n + 1][m + 1];
+        return helper(0,0,s,t,dp);
+    }
 
 
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = 1;
+    private static int helper(int idx1,int idx2,String s,String t,Integer[][] dp){
+        if(idx2==t.length())return 1;
+        if(idx1== s.length())return 0;
+
+
+        if(dp[idx1][idx2] != null)return dp[idx1][idx2];
+
+        int take = 0;
+        if(s.charAt(idx1) == t.charAt(idx2)){
+            take = helper(idx1+1,idx2+1,s,t,dp);
         }
 
+        int nontake = helper(idx1+1,idx2,s,t,dp) ;
 
-        for (int j = 1; j <= m; j++) {
-            dp[0][j] = 0;
-        }
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    // Include or exclude current char
-                    dp[i][j] = (dp[i - 1][j - 1] + dp[i - 1][j]) ;
-                } else {
-                    // Exclude current char
-                    dp[i][j] = dp[i - 1][j];
-                }
-            }
-        }
-
-        return dp[n][m];
+        return dp[idx1][idx2] = take+nontake;
     }
 }
