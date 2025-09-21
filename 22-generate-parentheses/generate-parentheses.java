@@ -1,34 +1,30 @@
 class Solution {
-    private List<String> k = new ArrayList<>();
     public List<String> generateParenthesis(int n) {
-        
-        char [] sol = new char[n*2];
-
-        sol[0] = '(';
-        int totalLength = n*2;
-        int currLength = 1;
-        int openBrace = n;
-        int countCurr = 1;
-        helper(sol,totalLength,currLength,openBrace,countCurr);
-        return k;
+        List<String> ans = new ArrayList<>();
+        StringBuilder str = new StringBuilder();
+        str.append('(');
+        helper(1,ans,n,str,1);
+        return ans;
     }
 
-   
-    private   void helper(char[] sol, int tl, int cL, int ob, int cc) {
-        if (tl == cL) {
-            String a = new String(sol);
-            k.add(a);
+    private static void helper(int idx,List<String>ans,int n,StringBuilder s,int count){
+        
+        if(idx == n*2 ){   
+            ans.add(new String(s));
             return;
         }
 
-        if (cc < ob) {
-            sol[cL] = '(';
-            helper(sol, tl, cL + 1, ob, cc + 1);
+        if(count<n ){
+            s.append('(');
+            count++;
+            helper(idx+1,ans,n,s,count);
+            s.deleteCharAt(s.length() - 1);
+            count--;
         }
-
-        if ((cL - cc) < cc ) {
-            sol[cL] = ')';
-            helper(sol, tl, cL + 1, ob, cc);
+        if(count <= n && s.length()-count < count){
+            s.append(')');
+            helper(idx+1,ans,n,s,count);
+            s.deleteCharAt(s.length() - 1);
         }
     }
 }
