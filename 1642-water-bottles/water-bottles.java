@@ -1,18 +1,15 @@
 class Solution {
-    public int numWaterBottles(int filled, int exc) {
-        int total = 0;
-        int empty = 0;
+    public int numWaterBottles(int btl, int exc) {
+        int total = btl;
+        int empty = btl;
 
-        while (filled > 0) {
-            // drink all filled bottles
-            total += filled;
-            empty += filled;
+        while(empty >= exc){
+            int curTotal = empty/exc;
+            int curEmp = empty%exc;
 
-            // exchange empty bottles for new filled bottles
-            filled = empty / exc;
-            empty = empty % exc;
+            total += curTotal;
+            empty = curTotal + curEmp;
         }
-
         return total;
     }
 }
