@@ -17,6 +17,7 @@ class Solution {
 
                 ans = Math.max(ans,helper(val,k));
             }
+            if(ans == k)return ans;
         }
         return ans;
     }
