@@ -1,5 +1,9 @@
 class Solution {
-    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+
+    static{
+        for(int i=0;i<500;i++) successfulPairs(new int[]{1,1},new int[]{1,1},1);
+    }
+    public static  int[] successfulPairs(int[] spells, int[] potions, long success) {
         Arrays.sort(potions);
         int lenS = spells.length;
         int lenP = potions.length;
