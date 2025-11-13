@@ -1,29 +1,25 @@
 class Solution {
     public List<String> letterCombinations(String digits) {
-        String [] str = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        List<String> res = new ArrayList<>();
-        StringBuilder temp = new StringBuilder();
-        if(digits.length()== 0){
-            return res;
-        }
+        
+        String [] strs = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        List<String> ans = new ArrayList<>();
 
-        backTrack(digits,res,temp,str,0);
-
-        return res;
+        helper(0,digits,strs,ans,"");
+        return ans;
     }
 
-    public void backTrack(String digits, List<String> res, StringBuilder temp,String []str,int ind){
-        if(temp.length()==digits.length()){
-            res.add(temp.toString());
+
+    private void helper(int ind ,String digits,String[] strs,List<String> ans,String s){
+        if(ind == digits.length()){
+            ans.add(s);
             return;
         }
-        
-        int number = digits.charAt(ind)-'0';
-        String curr = str[number];
-        for(int i= 0; i < curr.length();i++ ){
-            temp.append(curr.charAt(i));
-            backTrack(digits,res,temp,str,ind+1);
-            temp.deleteCharAt(temp.length()-1);
+
+        int curInd = digits.charAt(ind) - '0';
+
+        for(int i = 0;i<strs[curInd].length();i++){
+            String k = s+strs[curInd].charAt(i);
+            helper(ind+1,digits,strs,ans,k);
         }
     }
 }
