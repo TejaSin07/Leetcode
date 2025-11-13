@@ -1,31 +1,30 @@
 class Solution {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        Arrays.sort(candidates);
-        List<List<Integer>> ArrayList = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
-        backTrack(0,candidates,target,temp,ArrayList);
-       
-
-        return ArrayList;
-    }
-   private static void backTrack(int index,int[] cand,int target,List<Integer>temp, List<List<Integer>> ArrayList){
-    if(index == cand.length){
-        if(target==0){
-            // Collections.sort(temp);
-            ArrayList.add(new ArrayList<>(temp));
-        }
-        return;
+        Arrays.sort(candidates);
+        helper(0,candidates,target,ans,temp);
+        return ans;
     }
 
- if(cand[index]<= target){
-            temp.add(cand[index]);
-            backTrack(index+1,cand,target-cand[index],temp,ArrayList);
-            temp.remove(temp.size()-1);
-             while(index < cand.length-1  && cand[index] == cand[index+1]   ){
-                index++;
+
+    private void helper(int ind,int [] arr,int target,List<List<Integer>> ans, List<Integer>temp){
+        if(ind == arr.length){
+            if(target == 0 ){
+                ans.add(new ArrayList(temp));
             }
+            return ;
         }
 
-    backTrack(index+1,cand,target,temp,ArrayList);
-   }
+        if(arr[ind] <= target ){
+            temp.add(arr[ind]);
+            helper(ind+1,arr,target-arr[ind],ans,temp);
+            temp.remove(temp.size()-1);
+        }
+        while(ind < arr.length-1 && arr[ind] == arr[ind+1]){
+            ind++;
+        }
+
+        helper(ind+1,arr,target,ans,temp);
+    }
 }
