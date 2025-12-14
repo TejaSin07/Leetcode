@@ -9,7 +9,7 @@ class Solution {
             front *= nums[i];
 
             maxi = Math.max(maxi,front);
-                        if(front== 0){
+                if(front== 0){
                 front =1;
             }
        }
@@ -18,7 +18,7 @@ class Solution {
         back *= nums[i];
 
         maxi = Math.max(maxi,back);
-                if(back == 0){
+            if(back == 0){
             back = 1;
         }
        }
