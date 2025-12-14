@@ -1,41 +1,26 @@
+
 class Solution {
     public int beautySum(String s) {
-        final int ALPHABET_COUNT = 26; // Total number of lowercase English letters
-        final int STRING_LENGTH = s.length();
-        final char[] characters = s.toCharArray();
+        int ans = 0;
 
-        int[] charFrequency = new int[ALPHABET_COUNT]; // Frequency of each character
-        int[] frequencyHistogram = new int[STRING_LENGTH + 1]; // Count of characters at specific frequencies
+        for (int i = 0; i < s.length(); i++) {
+            HashMap<Character, Integer> map = new HashMap<>();
 
-        int totalBeautySum = 0;
+            for (int j = i; j < s.length(); j++) {
+                char ch = s.charAt(j);
+                map.put(ch, map.getOrDefault(ch, 0) + 1);
 
-        // Iterate over all possible starting indices
-        for (int start = 0; start < STRING_LENGTH; start++) {
-            int currentMinFreq = 0;
-            int currentMaxFreq = 0;
-            Arrays.fill(charFrequency, 0);
+                int max = 0;
+                int min = Integer.MAX_VALUE;
 
-            // Iterate over all possible ending indices starting from `start`
-            for (int end = start; end < STRING_LENGTH; end++) {
-                char currentChar = characters[end];
-                int frequency = ++charFrequency[currentChar - 'a']; // Update frequency of current character
-
-                // Update maximum frequency
-                if (frequency > currentMaxFreq) {
-                    frequencyHistogram[currentMaxFreq = frequency] = 0;
-                }
-                frequencyHistogram[frequency]++;
-
-                // Update minimum frequency
-                if (frequency == 1 || (--frequencyHistogram[frequency - 1] == 0 && frequency - 1 == currentMinFreq)) {
-                    currentMinFreq = frequency;
+                for (int freq : map.values()) {
+                    max = Math.max(max, freq);
+                    min = Math.min(min, freq);
                 }
 
-                // Add the beauty of the current substring
-                totalBeautySum += (currentMaxFreq - currentMinFreq);
+                ans += (max - min);
             }
         }
-
-        return totalBeautySum;
+        return ans;
     }
 }
