@@ -1,27 +1,25 @@
 class Solution {
     public int maxProduct(int[] nums) {
-       int front =1;
-       int  back =1;
-
-       int maxi = nums[0];
-
-       for(int i =0;i<nums.length;i++){
-            front *= nums[i];
-
-            maxi = Math.max(maxi,front);
-                if(front== 0){
-                front =1;
-            }
-       }
-
-       for(int i = nums.length-1;i>=0;i--){
-        back *= nums[i];
-
-        maxi = Math.max(maxi,back);
-            if(back == 0){
-            back = 1;
+        int n = nums.length;
+        if (n == 0) {
+            throw new IllegalArgumentException();
         }
-       }
-       return maxi;
+
+        int[] maxVal = new int[n];
+        int[] minVal = new int[n];
+        
+        maxVal[0] = nums[0];
+        minVal[0] = nums[0];
+        
+        for (int i = 1; i < n; i++) {
+            maxVal[i] = Math.max(maxVal[i-1]*nums[i], Math.max(minVal[i-1]*nums[i], nums[i]));
+            minVal[i] = Math.min(maxVal[i-1]*nums[i], Math.min(minVal[i-1]*nums[i], nums[i]));
+        }
+        
+        int ans = Integer.MIN_VALUE;
+        for (int num : maxVal) {
+            ans = Math.max(ans, num);
+        }
+        return ans;
     }
 }
