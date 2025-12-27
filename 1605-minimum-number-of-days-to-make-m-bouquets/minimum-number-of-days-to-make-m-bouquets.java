@@ -1,16 +1,17 @@
 class Solution {
     public int minDays(int[] days, int m, int k) {
         
-        int left = 1;
+        int left = Integer.MAX_VALUE;
         int right = Integer.MIN_VALUE;
         
         for(int i : days){
             right = Math.max(right,i);
+            left = Math.min(left,i);
         }
         
-        int maxLtd = right;
+        // int maxLtd = right;
         int len = days.length;
-        if(len < m*k)return -1;
+        if(len < (long)m*k)return -1;
 
         while(left <= right){
 
@@ -23,7 +24,7 @@ class Solution {
                 left = mid+1;
             }
         }
-        return left>maxLtd?-1:left;
+        return left;
     }
 
     private boolean isPos(int mid,int [] days,int m,int n){
