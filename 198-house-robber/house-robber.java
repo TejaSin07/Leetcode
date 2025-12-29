@@ -1,22 +1,33 @@
 class Solution {
     public int rob(int[] nums) {
         
-        int len = nums.length ;
+        int len = nums.length;
+        Integer [] dp = new Integer[len];
 
-        Integer dp[] = new Integer[len];
+        if(len <=1)return nums[0];
+        return Math.max(helper(0,nums,dp),helper(1,nums,dp));
+    
+    }
 
-        for(int i = 0;i<len;i++){
 
-            int one = 0;
-            int two = 0;
+    private int helper(int ind,int [] nums,Integer dp[]){
 
-            if(i-2 >=0)one = dp[i-2];
-            if(i-3 >=0)two =  dp[i-3];
+        int len = nums.length;
+        if(ind == nums.length-1)return nums[ind];
 
-            dp[i] = Math.max(one,two) + nums[i];
+
+        if(dp[ind] != null)return dp[ind];
+
+        int first = 0;
+        int second = 0;
+
+        if(ind+2 < len){
+            first = helper(ind+2,nums,dp);
+        }
+        if(ind+3 < len ){
+            second = helper(ind+3,nums,dp);
         }
 
-        if(len >1)return Math.max(dp[len-1],dp[len-2]);
-        return dp[len-1];
+        return dp[ind] = Math.max(first,second) + nums[ind];
     }
 }
