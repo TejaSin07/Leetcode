@@ -1,48 +1,38 @@
 class Solution {
     public int cherryPickup(int[][] grid) {
-        int len = grid.length;
-        int [][][] dp = new int[len][len][len];
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-                Arrays.fill(dp[i][j], Integer.MIN_VALUE);
-            }
-        }
-        return Math.max(0,helper(0,0,0,len,grid,dp));
+        Integer dp[][][][] = new Integer [grid.length][grid[0].length][grid.length][grid[0].length];
+        return Math.max(0,helper(0,0,0,0,grid,dp));
+       
     }
 
+    private int helper(int r1,int c1,int r2,int c2,int [][] grid,Integer[][][][] dp){
+        
+        int rows = grid.length;
+        int cols = grid[0].length;
 
+        if(r1 == rows || r2 == rows || c1 == cols || c2 == cols || grid[r1][c1] == -1 || grid[r2][c2] == -1 )return Integer.MIN_VALUE;
 
-    private static int helper(int r1,int c1,int r2,int len,int[][] grid,int[][][]dp){
-        int c2 = r1+c1-r2;
-        if(r1 >= len || r2 >= len || c1 >= len || c2 >= len || grid[r1][c1] == -1 || grid[r2][c2] == -1)return Integer.MIN_VALUE;
+        if( dp[r1][c1][r2][c2] != null)return dp[r1][c1][r2][c2] ;
 
-        if(r1 == len-1 && c1 == len-1)return grid[r1][c1];
-
-        if(dp[r1][c1][r2] != Integer.MIN_VALUE)return dp[r1][c1][r2];
-
-        if(r1 == len-1 && c1 == len-1) {
-            return grid[r1][c1];
+        if(r1 == r2 && c1== c2 && r1 == rows-1 && c1 == cols-1){
+            return  dp[r1][c1][r2][c2]  = grid[r1][c1];
         }
-        int cheri = 0;
-        if(r1==r2 && c1 == c2){
-            cheri += grid[r1][c1];
+
+        int one   = helper(r1+1,c1,r2+1,c2,grid,dp);
+        int two   = helper(r1+1,c1,r2,c2+1,grid,dp);
+        int three = helper(r1,c1+1,r2+1,c2,grid,dp);
+        int four  = helper(r1,c1+1,r2,c2+1,grid,dp);
+
+        int max = Math.max(Math.max(one,two),Math.max(three,four));
+
+        if(max == Integer.MIN_VALUE)return dp[r1][c1][r2][c2]  =Integer.MIN_VALUE;
+
+        
+        if(c1 == c2 && r1 == r2 ){
+            return dp[r1][c1][r2][c2]  = max + grid[r1][c1];
         }
         else{
-            cheri += grid[r1][c1] + grid[r2][c2];
+            return dp[r1][c1][r2][c2]  =  max + grid[r1][c1] + grid[r2][c2];
         }
-
-        //d d
-        int downdown = helper(r1+1,c1,r2+1,len,grid,dp);
-        //d r
-        int downright = helper(r1+1,c1,r2,len,grid,dp);
-        //r d
-        int rightdown = helper(r1,c1+1,r2+1,len,grid,dp);
-        //r r
-        int rightright = helper(r1,c1+1,r2,len,grid,dp);
-
-        cheri += Math.max(Math.max(downdown,rightright),Math.max(downright,rightdown));
-
-        return dp[r1][c1][r2] = cheri;
-
     }
 }
